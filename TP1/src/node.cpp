@@ -1,4 +1,4 @@
-#include "node.h"
+#include "node.hpp"
 
 // node is a structure
 node::node(int _dist, int _max_dist, node *_prev)

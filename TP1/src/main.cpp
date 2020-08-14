@@ -1,6 +1,6 @@
 #include <queue>
 #include <iostream>
-#include "game.h"
+#include "game.hpp"
 int main(int argc, char **argv)
 {
     if (argc < 2)

@@ -1,6 +1,6 @@
 #if !defined(GAME_H_ALG1)
 #define GAME_H_ALG1
-#include "node.h"
+#include "node.hpp"
 #include <fstream>
 #include <tuple>
 #include <queue>
