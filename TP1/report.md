@@ -22,6 +22,12 @@ Given that you can jump back and forth, you can get to any tile that takes less 
 
 From this, we can build an adaptation of a best first search algorithm (described below) to find the solution to the problem.
 
+
+
+
+
+
+
 ```pseudocode
 def BreadthFirstSearch(goal, initial node, nodes):
 	Set all nodes to "not visited";
@@ -74,10 +80,16 @@ def GetGameWinner(board, players):
 		board[player.position].player = player
 		edge.enqueue(player.position)
 	
+	
+	
+	
+	
+	
+	
 	while edge != empty:
 		x = edge.dequeue()
-		if x == (board.width - 1, board.height - 1):
-			return board[x].player, board[x].round 
+		if x == board.goal.position and board[x].round > board.goal.round:
+			exit loop 
 		for node in GetEdges(board, node):
 			if board[node].round == -1 or // if the node hasn't been visited
 				(board[node].round > board[x].round // or if the node has been visited
@@ -97,6 +109,7 @@ def GetGameWinner(board, players):
 				board[node].previous = board[x]
 				if board[node].round == -1:
 					edge.enqueue(node)
+	return board[x].player, board[x].round
 ```
 
 This algorithm guarantees that every move that is played is played by the player with the most priority to make that move, and it guarantees that if the target can be seen, it will be seen and reached in the optimal manner.
@@ -104,6 +117,14 @@ This algorithm guarantees that every move that is played is played by the player
 It also preserves the number of moves that were taken to get to the objective, and stops early whenever the objective is reached.
 
 The *queue* is used as a data structure that maintains the correct order of node exploration, and it also has $O(1)$ complexity for insertion and access.
+
+
+
+
+
+
+
+
 
 ### Proof of correctness
 
@@ -132,14 +153,38 @@ The algorithm is divided into two main steps:
 - Discovering reachable nodes
 - Exploring nodes
 
-No node is explored twice, so the maximum number of explored nodes is $M\times N$, which gives the *exploration* a complexity of $O(M\times N)$. For each exploration the discovery of reachable nodes takes $D^2$ steps, where $D$ is the maximum distance reachable from the node. $D$ is bounded by the size of the board, which is $(M\times N)$, so $D$ is bounded by $max(M, N)^2$, and there are $O(M\times N)$ explorations made in the algorithm, there fore the complete algorithm is $O(M\times N \times max(M,N)^2)$.
+No node is explored twice, so the maximum number of explored nodes is $M\times N$, which gives the *exploration* a complexity of $O(M\times N)$. For each exploration the discovery of reachable nodes takes at most $M\times N$  steps, since no node is looked at twice, and the limits of the exploration are set by the minimum range plausible. This means that the algorithm takes $O(M\times N)$ exploration steps, and each explored node has a complexity of $O(M\times N)$, which gives us a total complexity of $O(M^2\times N^2)$.
 
 The space complexity is bounded by the number of nodes there are in the board, since no new node is created. This means that the space complexity is $O(M\times N)$.
 
 ## Experimental evaluation
 
-To evaluate the code, I created several random boards, with the theoretical worst case performance (and took out the early stopping when reaching the goal). 
+The code evaluation is split into two parts, a worst case performance analysis and an average case performance analysis. Both of them are split into with early stopping and without early stopping.
 
-![](./img/experimentalvstheoretical.png)
+### Worst case performance analysis
 
-This plot represents the actual execution time of the algorithm vs it's theoretical execution time. Although pretty noisy, it's clear to see that there's a linear relationship between the two of them. The noise is probably my computer taking some time to get it together, since my RAM has been not the best lately. 
+To run the worst case performance analysis, I created several boards with dimensions ranging from $2\times 2$ to $256\times 256$, ran and timed the algorithm in clock cycles, with ten repetitions per run. Then, I plotted the performance in relation to the theoretical worst case performance of $O(M^2\times N^2)$, which gave me the following results:
+
+#### Early stopping
+
+![](./img/worst-case-early-stop-theo-actual.png)
+
+#### No early stopping
+
+![](./img/worst-case-theo-actual.png)
+
+It's clear that the worst case with no early stopping has an obvious linear relationship with the theoretical worst case performance, and the early stopping improves it but not by much. It takes about $60kk$ clock cycles to complete a $256\times 256$ board, with minimal deviation.
+
+### Average case performance analysis
+
+With the average case, I created several random boards, with the same sizes as the worst case analysis, but with random starting positions for the players, and  random number of steps in each tile. The difference in performance is abismal.
+
+#### Early stopping
+
+![](./img/usual-case-early-stop-theo-actual.png)
+
+#### No early stopping
+
+![](./img/usual-case-theo-actual.png)
+
+The performance for the usual case is not too mitigated by the early stopping, but still, it presents an average of about 25% increase in performance compared with the no early stopping.
