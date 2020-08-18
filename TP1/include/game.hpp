@@ -68,7 +68,7 @@ private:
     void read_board(std::ifstream &file);
 
     /**
-     * @brief Priority queue that represents the currently unexpanded
+     * @brief Queue that represents the currently unexpanded
      * but up for expantion nodes. The construction represents the number
      * of steps taken to get to the given node as the first part and the coordinates
      * of the second node in the second.
@@ -76,7 +76,7 @@ private:
      * node that had to be explored in a given play has been explored.
      * 
      */
-    std::priority_queue<std::pair<int, std::pair<int, int>>> edge;
+    std::queue<std::pair<int, int>> edge;
 
     /**
      * @brief Gets the nodes that are accessible from a given board

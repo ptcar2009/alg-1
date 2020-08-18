@@ -6,7 +6,7 @@ Game::Game(char *filepath)
 {
     // Initializing the priority queue for nodes on the 'edge', as described
     // in the report.
-    edge = std::priority_queue<std::pair<int, std::pair<int, int>>>();
+    edge = std::queue<std::pair<int, int>>();
 
     std::ifstream file;
     try
@@ -34,7 +34,7 @@ Game::Game(char *filepath)
         file >> y;
         board[x][y].player = i;
         board[x][y].dist = 0;
-        edge.push({0, {x, y}});
+        edge.push({x, y});
     }
 
     file.close();
@@ -43,18 +43,18 @@ Game::Game(char *filepath)
 std::pair<char, int> Game::Play()
 {
     // while there are still nodes to be explored
-    while (!edge.empty())
+    while (!edge.empty() /* && board[n - 1][m - 1].dist == -1 */)
     {
         // getting the top priority node's address
-        auto current_address = edge.top();
+        auto current_address = edge.front();
         // removing it from the 'to be explored' list
         edge.pop();
 
         // getting the node itself
-        auto current_node = board[current_address.second.first][current_address.second.second];
+        auto current_node = board[current_address.first][current_address.second];
 
         // for each node accessible from the current node
-        for (auto address : accessible_from(current_address.second.first, current_address.second.second))
+        for (auto address : accessible_from(current_address.first, current_address.second))
         {
 
             auto &nd = board[address.first][address.second];
@@ -68,7 +68,7 @@ std::pair<char, int> Game::Play()
                 if (nd.dist == -1)
                 {
                     // if the node hasn't been explored, explore it
-                    edge.push({current_node.dist + 1, address});
+                    edge.push(address);
                 }
 
                 // update the node in relation to the current node
