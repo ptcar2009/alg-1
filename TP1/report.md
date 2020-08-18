@@ -2,7 +2,7 @@
 
 #### Algorithms 1 - Pedro Tavares de Carvalho
 
-The assignment at hand was called **The Jump Game** (O Jogo do Pulo), and it was a board game of $$k$$ players, all split in a bidimentional board of dimensions $$M\times N$$, whose tiles contain a positive integer number, which dictates the number of steps in [manhattan directions]([https://xlinux.nist.gov/dads/HTML/manhattanDistance.html#:~:text=Definition%3A%20The%20distance%20between%20two,y1%20%2D%20y2%7C.&text=Lm%20distance.](https://xlinux.nist.gov/dads/HTML/manhattanDistance.html#:~:text=Definition%3A The distance between two,y1 - y2|.&text=Lm distance.)) (in $x$ or $y$ directions) will be taken when jumping from the tile (not less and not more). The rules of the game were:
+The assignment at hand was called **The Jump Game** (O Jogo do Pulo), and it was a board game of $$k$$ players, all split in a bidimentional board of dimensions $$M\times N$$, whose tiles contain a non negative integer number, which dictates the number of steps in [manhattan directions](https://xlinux.nist.gov/dads/HTML/manhattanDistance.html) (in $x$ or $y$ directions) will be taken when jumping from the tile (not less and not more). The rules of the game were:
 
 - Players start in a previously given position and playing order
 - The game is then played in turns. The first turn's order is dictated by the starting order and each subsequent turn is then determined by the lesser number in the player's chosen tile. 
