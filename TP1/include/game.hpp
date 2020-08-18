@@ -69,11 +69,7 @@ private:
 
     /**
      * @brief Queue that represents the currently unexpanded
-     * but up for expantion nodes. The construction represents the number
-     * of steps taken to get to the given node as the first part and the coordinates
-     * of the second node in the second.
-     * This construction makes sure the nodes are ordered in a way that every
-     * node that had to be explored in a given play has been explored.
+     * but up for expantion nodes.
      * 
      */
     std::queue<std::pair<int, int>> edge;
